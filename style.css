@@ -1,0 +1,251 @@
+/* Palette taken from the instrument itself */
+:root {
+  --varnish: #5A1E14;   /* Cremona red-brown varnish */
+  --varnish-deep: #3E130C;
+  --rosin: #D9A441;     /* amber rosin */
+  --maple: #B8835A;     /* flamed maple back */
+  --ink: #1E1B2E;       /* engraving ink, indigo-black */
+  --paper: #F7F7F4;     /* manuscript paper */
+  --rule: #D8D4CC;
+
+  --display: "Bodoni Moda", "Didot", Georgia, serif;
+  --text: "Figtree", system-ui, sans-serif;
+
+  --gutter: clamp(1rem, 5vw, 4rem);
+  --measure: 36rem;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font: 400 1.0625rem/1.65 var(--text);
+  -webkit-font-smoothing: antialiased;
+}
+
+img { max-width: 100%; display: block; }
+
+a { color: inherit; }
+a:focus-visible {
+  outline: 2px solid var(--rosin);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+h2 {
+  font: italic 500 clamp(2rem, 4vw, 2.75rem)/1.1 var(--display);
+  margin: 0 0 1.5rem;
+  color: var(--varnish);
+}
+
+.text-link {
+  color: var(--varnish);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+  font-weight: 500;
+}
+.text-link:hover { text-decoration-thickness: 2px; }
+
+/* ---------- Hero: the name written on a staff ---------- */
+.hero {
+  position: relative;
+  min-height: 100svh;
+  padding: 1.5rem var(--gutter) clamp(3rem, 8vh, 6rem);
+  background:
+    radial-gradient(120% 80% at 85% 10%, #7A2C1D 0%, transparent 60%),
+    var(--varnish-deep);
+  color: var(--rosin);
+  display: grid;
+  grid-template-rows: auto 1fr auto auto;
+  overflow: hidden;
+}
+
+.nav {
+  display: flex;
+  gap: clamp(1rem, 3vw, 2.25rem);
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+.nav a {
+  color: #EAD9C0;
+  text-decoration: none;
+  padding: 0.25rem 0;
+  border-bottom: 1px solid transparent;
+}
+.nav a:hover { border-bottom-color: var(--rosin); color: var(--rosin); }
+
+/* Five staff lines; the name sits across them like notes */
+.staff {
+  position: absolute;
+  left: calc(-1 * var(--gutter));
+  right: calc(-1 * var(--gutter));
+  top: 0.55em;
+  height: 0.95em;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  pointer-events: none;
+}
+.staff span {
+  display: block;
+  height: 1px;
+  background: rgba(217, 164, 65, 0.35);
+  transform-origin: left center;
+  animation: draw 1.4s cubic-bezier(.6,0,.2,1) both;
+}
+.staff span:nth-child(2) { animation-delay: .08s; }
+.staff span:nth-child(3) { animation-delay: .16s; }
+.staff span:nth-child(4) { animation-delay: .24s; }
+.staff span:nth-child(5) { animation-delay: .32s; }
+
+@keyframes draw { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+
+.name {
+  position: relative;
+  margin: 0;
+  grid-row: 3;
+  font-family: var(--display);
+  font-weight: 400;
+  line-height: 0.82;
+  letter-spacing: -0.02em;
+  font-size: clamp(5rem, 21vw, 19rem);
+  animation: rise 1.2s .5s cubic-bezier(.2,.7,.2,1) both;
+}
+.name .first { display: block; font-style: italic; font-weight: 500; }
+.name .last  { display: block; padding-left: 0.5em; }
+
+@keyframes rise { from { opacity: 0; transform: translateY(0.15em); } to { opacity: 1; transform: none; } }
+
+.role {
+  grid-row: 4;
+  margin: 1.75rem 0 0;
+  padding-left: calc(0.5 * clamp(5rem, 21vw, 19rem));
+  font: italic 400 clamp(1.25rem, 2.4vw, 1.75rem)/1.2 var(--display);
+  color: #EAD9C0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .staff span, .name { animation: none; }
+}
+
+/* ---------- Sections ---------- */
+main > section {
+  padding: clamp(4rem, 10vw, 8rem) var(--gutter);
+  max-width: 76rem;
+  margin: 0 auto;
+}
+
+/* About */
+.about {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: clamp(2rem, 6vw, 5rem);
+  align-items: start;
+}
+.portrait { margin: 0; }
+.portrait img, .portrait-empty {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+}
+.portrait-empty {
+  display: grid;
+  place-items: center;
+  background:
+    repeating-linear-gradient(100deg, #C49468 0 3px, #B8835A 3px 9px, #AE7850 9px 13px);
+  color: #FFF3E0;
+  font: italic 1.25rem var(--display);
+}
+.about-text { max-width: var(--measure); }
+.lede {
+  font: 400 clamp(1.35rem, 2.2vw, 1.6rem)/1.4 var(--display);
+  margin-top: 0;
+}
+
+/* Listen */
+.listen { border-top: 1px solid var(--rule); }
+.videos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 26rem), 1fr));
+  gap: 2.5rem;
+}
+.video { margin: 0; }
+.video-frame {
+  aspect-ratio: 16 / 9;
+  background: var(--ink);
+}
+.video-frame iframe { width: 100%; height: 100%; border: 0; display: block; }
+.video figcaption {
+  display: flex;
+  flex-direction: column;
+  margin-top: 0.85rem;
+}
+.video cite { font: italic 1.15rem var(--display); }
+.video figcaption span { color: #5E5A66; font-size: 0.95rem; }
+
+/* Concerts */
+.concerts { border-top: 1px solid var(--rule); }
+.dates { list-style: none; margin: 0; padding: 0; }
+.dates li {
+  display: grid;
+  grid-template-columns: 9rem 1fr auto;
+  gap: 1.5rem;
+  align-items: baseline;
+  padding: 1.5rem 0;
+  border-bottom: 1px solid var(--rule);
+}
+.dates li:first-child { border-top: 1px solid var(--ink); }
+.dates time { color: #5E5A66; font-size: 0.95rem; }
+.dates time b {
+  font: 400 2.25rem/1 var(--display);
+  color: var(--varnish);
+  margin-right: 0.35rem;
+}
+.dates p { margin: 0; }
+.program { font-weight: 600; }
+.where { color: #5E5A66; }
+
+/* Contact */
+.contact {
+  border-top: 1px solid var(--rule);
+  text-align: left;
+}
+.contact p { max-width: var(--measure); }
+.email {
+  display: inline-block;
+  margin: 0.5rem 0 2rem;
+  font: italic 400 clamp(1.9rem, 6vw, 4rem)/1.1 var(--display);
+  color: var(--varnish);
+  text-decoration: none;
+  border-bottom: 2px solid var(--rosin);
+  overflow-wrap: anywhere;
+}
+.email:hover { border-bottom-color: var(--varnish); }
+.social { list-style: none; padding: 0; margin: 0; display: flex; gap: 1.75rem; }
+
+.footer {
+  background: var(--varnish-deep);
+  color: #EAD9C0;
+  padding: 2rem var(--gutter);
+  font-size: 0.9rem;
+}
+.footer p { margin: 0; max-width: 76rem; margin-inline: auto; }
+
+/* ---------- Small screens ---------- */
+@media (max-width: 720px) {
+  .nav { justify-content: flex-start; }
+  .about { grid-template-columns: 1fr; }
+  .portrait { max-width: 22rem; }
+  .dates li { grid-template-columns: 1fr auto; gap: 0.5rem 1rem; }
+  .dates li > div { grid-column: 1 / -1; grid-row: 2; }
+  .role { padding-left: 0; }
+  .name { font-size: clamp(3.5rem, 19vw, 6rem); }
+  .name .last { padding-left: 0.2em; }
+}
