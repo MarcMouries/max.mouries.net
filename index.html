@@ -9,7 +9,7 @@
   <meta property="og:description" content="Biography, recordings, upcoming concerts and booking.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://max.mouries.net/">
-  <!-- EDIT: once you have a photo, add: <meta property="og:image" content="https://max.mouries.net/images/max.jpg"> -->
+  <meta property="og:image" content="https://max.mouries.net/images/share.jpg">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%235A1E14'/><text x='16' y='23' font-family='Georgia' font-size='20' text-anchor='middle' fill='%23D9A441'>M</text></svg>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -22,6 +22,7 @@
   <nav class="nav" aria-label="Main">
     <a href="#about">About</a>
     <a href="#listen">Listen</a>
+    <a href="#gallery">Gallery</a>
     <a href="#concerts">Concerts</a>
     <a href="#contact">Contact</a>
   </nav>
@@ -38,9 +39,7 @@
 
   <section id="about" class="about">
     <figure class="portrait">
-      <!-- EDIT: put a photo at images/max.jpg, then replace the div below with:
-           <img src="images/max.jpg" alt="Max Mouries with his violin" width="800" height="1000"> -->
-      <div class="portrait-empty">Photo to come</div>
+      <img src="images/max.jpg" alt="Max Mouries performing on stage beside the piano" width="880" height="1100">
     </figure>
     <div class="about-text">
       <h2>About</h2>
@@ -70,6 +69,27 @@
       </figure>
     </div>
   </section>
+
+  <section id="gallery" class="gallery">
+    <h2>Gallery</h2>
+    <!-- EDIT: add the venue and programme -->
+    <p class="gallery-caption">In concert, 7 November 2026</p>
+    <ul class="photos">
+      <li class="feature"><a href="images/gallery/concert-2.jpg"><img src="images/gallery/concert-2-sm.jpg" alt="The violin section in performance" width="800" height="533" loading="lazy"></a></li>
+      <li><a href="images/gallery/concert-1.jpg"><img src="images/gallery/concert-1-sm.jpg" alt="Musicians greeting each other on stage after the performance" width="800" height="533" loading="lazy"></a></li>
+      <li><a href="images/gallery/concert-5.jpg"><img src="images/gallery/concert-5-sm.jpg" alt="The conductor leading the orchestra" width="800" height="533" loading="lazy"></a></li>
+      <li><a href="images/gallery/concert-4.jpg"><img src="images/gallery/concert-4-sm.jpg" alt="The orchestra on stage, seen from the side" width="800" height="533" loading="lazy"></a></li>
+      <li><a href="images/gallery/concert-7.jpg"><img src="images/gallery/concert-7-sm.jpg" alt="Pianist and conductor with the orchestra, seen from behind the musicians" width="800" height="533" loading="lazy"></a></li>
+      <li><a href="images/gallery/concert-3.jpg"><img src="images/gallery/concert-3-sm.jpg" alt="The full orchestra and audience from the back of the hall" width="800" height="533" loading="lazy"></a></li>
+    </ul>
+  </section>
+
+  <dialog class="lightbox" aria-label="Photo viewer">
+    <img alt="">
+    <button class="lb-close" type="button" aria-label="Close">&times;</button>
+    <button class="lb-prev" type="button" aria-label="Previous photo">&lsaquo;</button>
+    <button class="lb-next" type="button" aria-label="Next photo">&rsaquo;</button>
+  </dialog>
 
   <section id="concerts" class="concerts">
     <h2>Concerts</h2>
@@ -120,6 +140,33 @@
   <p>&copy; <span id="year">2026</span> Max Mouries</p>
 </footer>
 
-<script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+<script>
+document.getElementById('year').textContent = new Date().getFullYear();
+
+// Gallery lightbox: links still open the full photo if JavaScript is off
+(function () {
+  const links = [...document.querySelectorAll('.photos a')];
+  const box = document.querySelector('.lightbox');
+  if (!box || !box.showModal) return;
+  const img = box.querySelector('img');
+  let i = 0;
+  const show = n => {
+    i = (n + links.length) % links.length;
+    img.src = links[i].href;
+    img.alt = links[i].querySelector('img').alt;
+  };
+  links.forEach((a, n) => a.addEventListener('click', e => {
+    e.preventDefault(); show(n); box.showModal();
+  }));
+  box.querySelector('.lb-close').onclick = () => box.close();
+  box.querySelector('.lb-prev').onclick = () => show(i - 1);
+  box.querySelector('.lb-next').onclick = () => show(i + 1);
+  box.addEventListener('click', e => { if (e.target === box) box.close(); });
+  box.addEventListener('keydown', e => {
+    if (e.key === 'ArrowLeft') show(i - 1);
+    if (e.key === 'ArrowRight') show(i + 1);
+  });
+})();
+</script>
 </body>
 </html>
