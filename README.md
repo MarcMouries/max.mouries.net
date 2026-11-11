@@ -2,7 +2,7 @@
 
 Portfolio site for Max Mouries, violinist. Plain HTML and CSS, no build step.
 
-**Live site:** https://marcmouries.github.io/max.mouries.net/
+**Test site:** https://marcmouries.github.io/max.mouries.net/
 
 ## Editing
 
@@ -14,7 +14,7 @@ To preview locally: `open index.html`.
 
 ## Publishing
 
-The site is hosted on GitHub Pages, served from the `main` branch.
+A test version is hosted on GitHub Pages from the `main` branch (the final home will be max.mouries.net).
 Every push to `main` redeploys automatically within a minute or two:
 
 ```sh
